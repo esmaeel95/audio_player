@@ -18,6 +18,7 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
   AudioPlayerBloc() : super(AudioPlayerInitial()) {
     on<AudioPlayerEvent>((event, emit) async {
       if (event is ChangePlayerIndex) {
+        // this event for change the songs and play another one.
         try {
           emit(LoadingPlayAudio());
           currentIndex = event.index;
@@ -34,6 +35,7 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
       }
 
       if (event is InitialMedia) {
+        // initial audio and get duration, this method takes a few second because need initialize all things to get duration time
         emit(Loading());
         for (int i = 1; i < 18; i++) {
           final playerInit = AudioPlayer();
@@ -53,11 +55,13 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
         emit(InitialSuccessful());
       }
       if (event is DurationChange) {
+        // this for duration time change and view the remain, i stopped use it now.
         emit(LoadingDurationChanged());
         duration = event.duration;
         emit(DurationChangedSuccessful());
       }
       if (event is PositionChange) {
+        // this for position of time.
         emit(PositionChangedSuccessful());
         position = event.duration;
         emit(LoadingPositionChanged());
@@ -71,6 +75,7 @@ class AudioPlayerBloc extends Bloc<AudioPlayerEvent, AudioPlayerState> {
   }
 
   String getDuration(Duration duration) {
+    // get time 00:00
     String negativeSign = duration.isNegative ? '-' : '';
     String twoDigits(int n) => n.toString().padLeft(2, "0");
     String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60).abs());

@@ -17,6 +17,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(ChangedIndexNavBarSuccessful());
       }
       if (event is AddAudioInfo) {
+        // when select the audio from list and this method for hold the audio object on all screen.
         emit(LoadingHome());
         selectedAudio = event.data;
         emit(AddAudioInfoSuccessful());
